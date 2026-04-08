@@ -139,16 +139,18 @@ class MyAssistantBotEnvironment(Environment):
             f"{ch['question']}\n\n"
             f"💡 Hint: {ch['hint']}"
         )
-        return MyAssistantBotObservation(echoed_message=msg, reward=0.0, done=False)
+        return MyAssistantBotObservation(echoed_message=msg, reward=0.01, done=False)
 
     def _normalized_reward(self):
-        """Return reward normalized to 0.0-1.0 range."""
+        """Return reward normalized to 0.01-0.99 range."""
         st = MyAssistantBotEnvironment._env_state
         challenges = MyAssistantBotEnvironment._challenges
         max_score = sum(c['points'] for c in challenges)
         if max_score <= 0:
-            return 0.0
-        return round(min(max(st.total_score / max_score, 0.0), 1.0), 4)
+            return 0.5
+        score = st.total_score / max_score
+        # Ensure it is STRICTLY between 0 and 1 (not 0.0 and not 1.0)
+        return round(min(max(score, 0.01), 0.99), 4)
 
     def step(self, action: MyAssistantBotAction) -> MyAssistantBotObservation:
         st = MyAssistantBotEnvironment._env_state
