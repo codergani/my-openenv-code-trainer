@@ -79,32 +79,9 @@ async def root_redirect():
     return RedirectResponse(url="/elite")
 
 
-def main(host: str = "127.0.0.1", port: int = 8000):
-    """
-    Entry point for direct execution via uv run or python -m.
-
-    This function enables running the server without Docker:
-        uv run --project . server
-        uv run --project . server --port 8001
-        python -m my_assistant_bot.server.app
-
-    Args:
-        host: Host address to bind to (default: "127.0.0.1")
-        port: Port number to listen on (default: 8000)
-
-    For production deployments, consider using uvicorn directly with
-    multiple workers:
-        uvicorn my_assistant_bot.server.app:app --workers 4
-    """
+def main():
     import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000, log_level="debug")
 
-    uvicorn.run(app, host=host, port=port, log_level="debug")
-
-
-if __name__ == "__main__":
-    import argparse
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--port", type=int, default=8000)
-    args = parser.parse_args()
-    main(port=args.port)
+if __name__ == '__main__':
+    main()
