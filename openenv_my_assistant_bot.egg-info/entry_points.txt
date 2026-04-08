@@ -1,0 +1,2 @@
+[console_scripts]
+server = my_assistant_bot.server.app:main

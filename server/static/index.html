@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Trainer | AI Training Playground</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- ===== PAGE 1: LANDING ===== -->
+    <div id="page-landing" class="page">
+        <div class="landing">
+            <div style="font-size:4rem;margin-bottom:1rem;">🧠</div>
+            <h1 class="landing-title">AI Training Playground</h1>
+            <p class="landing-sub">Choose a training mode to begin</p>
+            <div class="landing-buttons">
+                <button class="landing-btn code-btn" onclick="showPage('page-code')">
+                    <span class="landing-icon">💻</span>
+                    <span class="landing-btn-title">Code Trainer</span>
+                    <span class="landing-btn-desc">Watch AI learn coding challenges automatically</span>
+                </button>
+                <button class="landing-btn custom-btn" onclick="showPage('page-custom')">
+                    <span class="landing-icon">🤖</span>
+                    <span class="landing-btn-title">Train Your AI Bot</span>
+                    <span class="landing-btn-desc">Add your own data and train a custom AI bot</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PAGE 2: CODE TRAINER ===== -->
+    <div id="page-code" class="page hidden">
+        <div class="app">
+            <aside class="sidebar">
+                <div class="brand clickable" onclick="showPage('page-landing')">
+                    <span>←</span>
+                    <h1>Code Trainer</h1>
+                </div>
+                <div class="bot-section">
+                    <p class="stat-label">AI BOT CONTROLS</p>
+                    <button id="train-btn" class="train-btn">🤖 Train AI Bot</button>
+                    <button id="clear-btn" class="clear-btn">🧹 Clear Bot Memory</button>
+                    <div class="brain-info">
+                        <span class="stat-label">BOT MEMORY</span>
+                        <span id="brain-size" class="brain-count">0 / 10 answers learned</span>
+                    </div>
+                </div>
+                <div class="stats">
+                    <div class="stat"><span class="stat-label">SCORE</span><span class="stat-value" id="score">0.0</span></div>
+                    <div class="stat"><span class="stat-label">CORRECT</span><span class="stat-value correct" id="correct">0</span></div>
+                    <div class="stat"><span class="stat-label">WRONG</span><span class="stat-value wrong" id="wrong">0</span></div>
+                </div>
+                <div class="progress-section">
+                    <span class="stat-label">PROGRESS</span>
+                    <div class="progress-bar"><div class="progress-fill" id="progress" style="width:0%"></div></div>
+                    <span class="progress-text" id="progress-text">0 / 10</span>
+                </div>
+                <div class="history-section">
+                    <p class="stat-label">TRAINING RUNS</p>
+                    <div id="history" class="history-list"><span class="muted-text">No runs yet</span></div>
+                </div>
+            </aside>
+            <main class="main">
+                <div id="feedback" class="feedback hidden"></div>
+                <div class="challenge-area" id="challenge">
+                    <div class="welcome-state">
+                        <div style="font-size:4rem;margin-bottom:1rem;">🤖</div>
+                        <h2>AI Code Trainer</h2>
+                        <p style="color:#64748b;margin-top:0.5rem;max-width:400px;line-height:1.6;">
+                            Click <b>"Train AI Bot"</b> to watch the AI learn 10 coding challenges.<br>Each run it gets smarter!
+                        </p>
+                    </div>
+                </div>
+                <div class="log-bar"><div id="training-log" class="training-log"></div></div>
+            </main>
+        </div>
+        <div id="overlay" class="overlay hidden">
+            <div class="modal">
+                <div id="modal-content"></div>
+                <button id="modal-train-again" class="train-btn" style="margin-top:1.5rem;">🤖 Train Again</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PAGE 3: CUSTOM BOT TRAINER ===== -->
+    <div id="page-custom" class="page hidden">
+        <div class="app">
+            <aside class="sidebar">
+                <div class="brand clickable" onclick="showPage('page-landing')">
+                    <span>←</span>
+                    <h1>Train Your AI Bot</h1>
+                </div>
+
+                <!-- Bot Setup -->
+                <div class="bot-section">
+                    <p class="stat-label">BOT IDENTITY</p>
+                    <input type="text" id="bot-name" class="text-input" placeholder="Name your bot..." value="MyBot" />
+                </div>
+
+                <!-- Add Training Data -->
+                <div class="bot-section">
+                    <p class="stat-label">ADD TRAINING DATA</p>
+                    <input type="text" id="td-question" class="text-input" placeholder="Question / User says..." />
+                    <textarea id="td-answer" class="text-input textarea" placeholder="Bot should respond..."></textarea>
+                    <button id="add-data-btn" class="train-btn" style="font-size:0.75rem;padding:0.5rem;">➕ Add to Training Set</button>
+                </div>
+
+                <!-- Training Data Count -->
+                <div class="brain-info">
+                    <span class="stat-label">TRAINING DATA</span>
+                    <span id="custom-data-count" class="brain-count">0 pairs added</span>
+                </div>
+
+                <!-- Actions -->
+                <button id="custom-train-btn" class="train-btn" disabled>🚀 Train Bot</button>
+                <button id="custom-clear-btn" class="clear-btn">🧹 Clear All Training</button>
+            </aside>
+
+            <main class="main">
+                <!-- Training Data List + Chat -->
+                <div class="custom-main-area">
+                    <!-- Left: Training Data -->
+                    <div class="panel" id="data-panel">
+                        <h3 class="panel-title">📋 Training Data</h3>
+                        <div id="data-list" class="data-list">
+                            <p class="muted-text" style="padding:1rem;">Add question-answer pairs using the sidebar →</p>
+                        </div>
+                    </div>
+                    <!-- Right: Chat -->
+                    <div class="panel" id="chat-panel">
+                        <h3 class="panel-title">💬 Chat with <span id="bot-name-display">MyBot</span></h3>
+                        <div id="chat-messages" class="chat-messages">
+                            <div class="chat-msg bot-msg">
+                                <span class="chat-who">🤖 Bot</span>
+                                <span class="chat-text">Add training data and click "Train Bot" to start chatting with me!</span>
+                            </div>
+                        </div>
+                        <div class="chat-input-bar">
+                            <input type="text" id="chat-input" class="text-input" placeholder="Ask the bot something..." disabled />
+                            <button id="chat-send" class="train-btn" style="padding:0.6rem 1rem;font-size:0.8rem;" disabled>Send</button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

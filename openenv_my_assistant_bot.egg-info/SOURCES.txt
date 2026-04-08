@@ -1,0 +1,14 @@
+README.md
+pyproject.toml
+./__init__.py
+./client.py
+./models.py
+openenv_my_assistant_bot.egg-info/PKG-INFO
+openenv_my_assistant_bot.egg-info/SOURCES.txt
+openenv_my_assistant_bot.egg-info/dependency_links.txt
+openenv_my_assistant_bot.egg-info/entry_points.txt
+openenv_my_assistant_bot.egg-info/requires.txt
+openenv_my_assistant_bot.egg-info/top_level.txt
+server/__init__.py
+server/app.py
+server/my_assistant_bot_environment.py
