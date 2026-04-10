@@ -3,7 +3,10 @@ from typing import Optional, Any
 try:
     from my_assistant_bot.models import MyAssistantBotAction, MyAssistantBotObservation, MyAssistantBotState
 except (ImportError, ValueError):
-    from models import MyAssistantBotAction, MyAssistantBotObservation, MyAssistantBotState
+    try:
+        from ..models import MyAssistantBotAction, MyAssistantBotObservation, MyAssistantBotState
+    except (ImportError, ValueError):
+        from models import MyAssistantBotAction, MyAssistantBotObservation, MyAssistantBotState
 
 from openenv.core.env_server import Environment
 

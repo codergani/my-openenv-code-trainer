@@ -43,8 +43,12 @@ try:
     from my_assistant_bot.models import MyAssistantBotAction, MyAssistantBotObservation
     from my_assistant_bot.server.my_assistant_bot_environment import MyAssistantBotEnvironment
 except (ImportError, ValueError):
-    from models import MyAssistantBotAction, MyAssistantBotObservation
-    from server.my_assistant_bot_environment import MyAssistantBotEnvironment
+    try:
+        from ..models import MyAssistantBotAction, MyAssistantBotObservation
+        from .my_assistant_bot_environment import MyAssistantBotEnvironment
+    except (ImportError, ValueError):
+        from models import MyAssistantBotAction, MyAssistantBotObservation
+        from server.my_assistant_bot_environment import MyAssistantBotEnvironment
 
 
 # Enable the web interface by default
