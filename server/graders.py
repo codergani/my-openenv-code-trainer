@@ -18,49 +18,38 @@ def _clamp_score(raw_score: float, max_score: float) -> float:
     return round(min(max(normalized, 0.01), 0.99), 4)
 
 
-def grade_easy(state: dict) -> float:
+def _get_val(state, key: str, default=0.0):
+    """Safe retrieval of values from state (handles dict or object)."""
+    if isinstance(state, dict):
+        return state.get(key, default)
+    return getattr(state, key, default)
+
+
+def grade_easy(state) -> float:
     """
     Grade Easy challenges (IDs 1-3).
     Max raw score = 3.0 (3 challenges x 1.0 points each).
-
-    Args:
-        state: Dictionary containing environment state with per-difficulty scores.
-
-    Returns:
-        A float strictly between 0 and 1.
     """
-    easy_score = state.get("easy_score", 0.0)
-    easy_max = 3.0  # 3 easy challenges x 1.0 points each
+    easy_score = _get_val(state, "easy_score", 0.0)
+    easy_max = 3.0
     return _clamp_score(easy_score, easy_max)
 
 
-def grade_medium(state: dict) -> float:
+def grade_medium(state) -> float:
     """
     Grade Medium challenges (IDs 4-7).
     Max raw score = 6.0 (4 challenges x 1.5 points each).
-
-    Args:
-        state: Dictionary containing environment state with per-difficulty scores.
-
-    Returns:
-        A float strictly between 0 and 1.
     """
-    medium_score = state.get("medium_score", 0.0)
-    medium_max = 6.0  # 4 medium challenges x 1.5 points each
+    medium_score = _get_val(state, "medium_score", 0.0)
+    medium_max = 6.0
     return _clamp_score(medium_score, medium_max)
 
 
-def grade_hard(state: dict) -> float:
+def grade_hard(state) -> float:
     """
     Grade Hard challenges (IDs 8-10).
     Max raw score = 6.0 (3 challenges x 2.0 points each).
-
-    Args:
-        state: Dictionary containing environment state with per-difficulty scores.
-
-    Returns:
-        A float strictly between 0 and 1.
     """
-    hard_score = state.get("hard_score", 0.0)
-    hard_max = 6.0  # 3 hard challenges x 2.0 points each
+    hard_score = _get_val(state, "hard_score", 0.0)
+    hard_max = 6.0
     return _clamp_score(hard_score, hard_max)
