@@ -11,7 +11,7 @@ if root_path not in sys.path:
 try:
     from my_assistant_bot.models import MyAssistantBotAction, MyAssistantBotObservation, MyAssistantBotState
 except (ImportError, ValueError):
-    from models import MyAssistantBotAction, MyAssistantBotObservation, MyAssistantBotState
+    from models import MyAssistantBotAction, MyAssistantBotObservation, MyAssistantBotState  # type: ignore
 
 from openenv.core.env_server import Environment
 
