@@ -39,16 +39,21 @@ except Exception as e:  # pragma: no cover
         "openenv is required for the web interface. Install dependencies with '\n    uv sync\n'"
     ) from e
 
+import sys
+import os
+from pathlib import Path
+
+# Add the project root to sys.path
+root_path = str(Path(__file__).parent.parent)
+if root_path not in sys.path:
+    sys.path.insert(0, root_path)
+
 try:
     from my_assistant_bot.models import MyAssistantBotAction, MyAssistantBotObservation
     from my_assistant_bot.server.my_assistant_bot_environment import MyAssistantBotEnvironment
 except (ImportError, ValueError):
-    try:
-        from ..models import MyAssistantBotAction, MyAssistantBotObservation
-        from .my_assistant_bot_environment import MyAssistantBotEnvironment
-    except (ImportError, ValueError):
-        from models import MyAssistantBotAction, MyAssistantBotObservation
-        from server.my_assistant_bot_environment import MyAssistantBotEnvironment
+    from models import MyAssistantBotAction, MyAssistantBotObservation
+    from server.my_assistant_bot_environment import MyAssistantBotEnvironment
 
 
 # Enable the web interface by default

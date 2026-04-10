@@ -1,12 +1,17 @@
-import uuid
+import sys
+import os
+from pathlib import Path
 from typing import Optional, Any
+
+# Add the project root to sys.path to ensure absolute imports work
+root_path = str(Path(__file__).parent.parent)
+if root_path not in sys.path:
+    sys.path.insert(0, root_path)
+
 try:
     from my_assistant_bot.models import MyAssistantBotAction, MyAssistantBotObservation, MyAssistantBotState
 except (ImportError, ValueError):
-    try:
-        from ..models import MyAssistantBotAction, MyAssistantBotObservation, MyAssistantBotState
-    except (ImportError, ValueError):
-        from models import MyAssistantBotAction, MyAssistantBotObservation, MyAssistantBotState
+    from models import MyAssistantBotAction, MyAssistantBotObservation, MyAssistantBotState
 
 from openenv.core.env_server import Environment
 
