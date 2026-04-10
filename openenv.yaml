@@ -5,3 +5,21 @@ runtime: fastapi
 app: server.app:app
 port: 8000
 
+tasks:
+  - id: "easy_challenges"
+    name: "Easy Coding Challenges"
+    description: "Basic Python challenges covering output prediction, data types, and bug fixing. Challenges 1-3."
+    difficulty: "easy"
+    grader: "server.graders:grade_easy"
+
+  - id: "medium_challenges"
+    name: "Medium Coding Challenges"
+    description: "Intermediate challenges covering data structures, algorithms, output prediction, and code completion. Challenges 4-7."
+    difficulty: "medium"
+    grader: "server.graders:grade_medium"
+
+  - id: "hard_challenges"
+    name: "Hard Coding Challenges"
+    description: "Advanced challenges covering Python generators, OOP concepts, and error handling. Challenges 8-10."
+    difficulty: "hard"
+    grader: "server.graders:grade_hard"

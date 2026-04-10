@@ -7,5 +7,6 @@
 """My Assistant Bot environment server components."""
 
 from .my_assistant_bot_environment import MyAssistantBotEnvironment
+from .graders import grade_easy, grade_medium, grade_hard
 
-__all__ = ["MyAssistantBotEnvironment"]
+__all__ = ["MyAssistantBotEnvironment", "grade_easy", "grade_medium", "grade_hard"]

@@ -12,3 +12,6 @@ class MyAssistantBotState(State):
     total_score: float = 0.0
     correct_count: int = 0
     wrong_count: int = 0
+    easy_score: float = 0.0
+    medium_score: float = 0.0
+    hard_score: float = 0.0

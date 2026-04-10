@@ -97,6 +97,11 @@ class MyAssistantBotEnv(
         return MyAssistantBotState(
             episode_id=payload.get("episode_id"),
             step_count=payload.get("step_count", 0),
-            current_email_index=payload.get("current_email_index", 0),
+            current_challenge_index=payload.get("current_challenge_index", 0),
             total_score=payload.get("total_score", 0.0),
+            correct_count=payload.get("correct_count", 0),
+            wrong_count=payload.get("wrong_count", 0),
+            easy_score=payload.get("easy_score", 0.0),
+            medium_score=payload.get("medium_score", 0.0),
+            hard_score=payload.get("hard_score", 0.0),
         )
