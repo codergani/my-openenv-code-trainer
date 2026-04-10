@@ -174,13 +174,13 @@ class MyAssistantBotEnvironment(Environment):
         if correct:
             st.total_score += ch['points']
             st.correct_count += 1
-            # Track per-difficulty scores for graders
-            difficulty = ch.get('difficulty', '').lower()
-            if difficulty == 'easy':
+            # Track category-specific scores for graders
+            diff = ch['difficulty'].lower()
+            if diff == "easy":
                 st.easy_score += ch['points']
-            elif difficulty == 'medium':
+            elif diff == "medium":
                 st.medium_score += ch['points']
-            elif difficulty == 'hard':
+            elif diff == "hard":
                 st.hard_score += ch['points']
             feedback = f"✅ CORRECT! +{ch['points']} points"
         else:

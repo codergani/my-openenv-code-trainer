@@ -6,20 +6,18 @@ app: server.app:app
 port: 8000
 
 tasks:
-  - id: "easy_challenges"
-    name: "Easy Coding Challenges"
-    description: "Basic Python challenges covering output prediction, data types, and bug fixing. Challenges 1-3."
-    difficulty: "easy"
-    grader: "server.graders:grade_easy"
-
-  - id: "medium_challenges"
-    name: "Medium Coding Challenges"
-    description: "Intermediate challenges covering data structures, algorithms, output prediction, and code completion. Challenges 4-7."
-    difficulty: "medium"
-    grader: "server.graders:grade_medium"
-
-  - id: "hard_challenges"
-    name: "Hard Coding Challenges"
-    description: "Advanced challenges covering Python generators, OOP concepts, and error handling. Challenges 8-10."
-    difficulty: "hard"
-    grader: "server.graders:grade_hard"
+  - id: easy_coding
+    name: "Easy Python Challenges"
+    description: "Predict outputs and fix basic bugs."
+    difficulty: easy
+    grader: "my_assistant_bot.server.graders:grade_easy"
+  - id: medium_coding
+    name: "Medium Python Challenges"
+    description: "Data structures and algorithms."
+    difficulty: medium
+    grader: "my_assistant_bot.server.graders:grade_medium"
+  - id: hard_coding
+    name: "Hard Python Challenges"
+    description: "Advanced OOP and error handling."
+    difficulty: hard
+    grader: "my_assistant_bot.server.graders:grade_hard"
