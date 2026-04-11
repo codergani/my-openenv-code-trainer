@@ -139,10 +139,10 @@ class MyAssistantBotEnvironment(Environment):
             f"{ch['question']}\n\n"
             f"💡 Hint: {ch['hint']}"
         )
-        return MyAssistantBotObservation(echoed_message=msg, reward=0.01, done=False)
+        return MyAssistantBotObservation(echoed_message=msg, reward=0.1, done=False)
 
     def _normalized_reward(self):
-        """Return reward normalized to 0.01-0.99 range."""
+        """Return reward normalized to 0.1-0.9 range."""
         st = MyAssistantBotEnvironment._env_state
         challenges = MyAssistantBotEnvironment._challenges
         max_score = sum(c['points'] for c in challenges)
@@ -150,7 +150,7 @@ class MyAssistantBotEnvironment(Environment):
             return 0.5
         score = st.total_score / max_score
         # Ensure it is STRICTLY between 0 and 1 (not 0.0 and not 1.0)
-        return round(min(max(score, 0.01), 0.99), 4)
+        return round(min(max(score, 0.1), 0.9), 4)
 
     def step(self, action: MyAssistantBotAction) -> MyAssistantBotObservation:
         st = MyAssistantBotEnvironment._env_state
@@ -162,7 +162,7 @@ class MyAssistantBotEnvironment(Environment):
         if idx >= len(challenges):
             return MyAssistantBotObservation(
                 echoed_message="Session finished. Click Reset to start again.",
-                reward=0.01, done=True
+                reward=0.1, done=True
             )
 
         ch = challenges[idx]
@@ -193,7 +193,7 @@ class MyAssistantBotEnvironment(Environment):
         total_max_points = sum(c['points'] for c in challenges)
         current_step_reward = (ch["points"] / total_max_points) if correct else 0.0
         # Clamp it strictly between 0 and 1 just in case, but usually a single step is fine.
-        current_step_reward = round(min(max(current_step_reward, 0.0), 0.99), 4)
+        current_step_reward = round(min(max(current_step_reward, 0.1), 0.9), 4)
 
         # Show next challenge or finish
         if st.current_challenge_index < len(challenges):

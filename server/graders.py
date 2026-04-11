@@ -15,7 +15,7 @@ def _clamp_score(raw_score: float, max_score: float) -> float:
         return 0.5
     normalized = raw_score / max_score
     # Clamp to strictly within (0, 1) — the validator rejects 0.0 and 1.0
-    return round(min(max(normalized, 0.01), 0.99), 4)
+    return round(min(max(normalized, 0.1), 0.9), 4)
 
 
 def _get_val(state, key: str, default=0.0):
