@@ -1,17 +1,9 @@
-import sys
-import os
-from pathlib import Path
+import uuid
 from typing import Optional, Any
-
-# Add the project root to sys.path to ensure absolute imports work
-root_path = str(Path(__file__).parent.parent)
-if root_path not in sys.path:
-    sys.path.insert(0, root_path)
-
 try:
     from my_assistant_bot.models import MyAssistantBotAction, MyAssistantBotObservation, MyAssistantBotState
 except (ImportError, ValueError):
-    from models import MyAssistantBotAction, MyAssistantBotObservation, MyAssistantBotState  # type: ignore
+    from models import MyAssistantBotAction, MyAssistantBotObservation, MyAssistantBotState
 
 from openenv.core.env_server import Environment
 
@@ -170,7 +162,7 @@ class MyAssistantBotEnvironment(Environment):
         if idx >= len(challenges):
             return MyAssistantBotObservation(
                 echoed_message="Session finished. Click Reset to start again.",
-                reward=self._normalized_reward(), done=True
+                reward=0.01, done=True
             )
 
         ch = challenges[idx]
@@ -182,27 +174,26 @@ class MyAssistantBotEnvironment(Environment):
         if correct:
             st.total_score += ch['points']
             st.correct_count += 1
+            # Track category-specific scores for graders
+            if ch["difficulty"] == "Easy":
+                st.easy_score += ch["points"]
+            elif ch["difficulty"] == "Medium":
+                st.medium_score += ch["points"]
+            elif ch["difficulty"] == "Hard":
+                st.hard_score += ch["points"]
             feedback = f"✅ CORRECT! +{ch['points']} points"
         else:
             st.wrong_count += 1
             expected = ch['accept'][0]
             feedback = f"❌ WRONG. The answer was: {expected}"
 
-        # Track score per category
-        if ch["difficulty"] == "Easy":
-            st.easy_score += ch["points"] if correct else 0
-        elif ch["difficulty"] == "Medium":
-            st.medium_score += ch["points"] if correct else 0
-        elif ch["difficulty"] == "Hard":
-            st.hard_score += ch["points"] if correct else 0
-
         st.current_challenge_index += 1
         
-        # Incremental reward for this step
-        current_step_reward = (ch["points"] / sum(c["points"] for c in challenges)) if correct else 0.0
-        # Clamp to strictly within (0, 1) to avoid total episode reward being exactly 1.0 or 0.0 if OpenEnv sums them
-        # However, the graders are what really matter.
-        norm_reward = self._normalized_reward()
+        # Calculate incremental reward for this step
+        total_max_points = sum(c['points'] for c in challenges)
+        current_step_reward = (ch["points"] / total_max_points) if correct else 0.0
+        # Clamp it strictly between 0 and 1 just in case, but usually a single step is fine.
+        current_step_reward = round(min(max(current_step_reward, 0.0), 0.99), 4)
 
         # Show next challenge or finish
         if st.current_challenge_index < len(challenges):
@@ -220,7 +211,7 @@ class MyAssistantBotEnvironment(Environment):
             )
             return MyAssistantBotObservation(
                 echoed_message=msg,
-                reward=norm_reward,
+                reward=current_step_reward,
                 done=False
             )
         else:
@@ -245,7 +236,7 @@ class MyAssistantBotEnvironment(Environment):
             )
             return MyAssistantBotObservation(
                 echoed_message=msg,
-                reward=norm_reward,
+                reward=current_step_reward,
                 done=True
             )
 
