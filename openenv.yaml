@@ -10,14 +10,14 @@ tasks:
     name: "Easy Challenges"
     description: "Output prediction and basic bug fixing."
     difficulty: "Easy"
-    grader: "my_assistant_bot.server.graders:grade_easy"
+    grader: "server.graders:grade_easy"
   - id: medium_task
     name: "Medium Challenges"
     description: "Data structures and algorithm logic."
     difficulty: "Medium"
-    grader: "my_assistant_bot.server.graders:grade_medium"
+    grader: "server.graders:grade_medium"
   - id: hard_task
     name: "Hard Challenges"
     description: "Advanced OOP, generators, and error handling."
     difficulty: "Hard"
-    grader: "my_assistant_bot.server.graders:grade_hard"
+    grader: "server.graders:grade_hard"

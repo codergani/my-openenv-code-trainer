@@ -182,21 +182,26 @@ class MyAssistantBotEnvironment(Environment):
         if correct:
             st.total_score += ch['points']
             st.correct_count += 1
-            # Track category-specific scores for graders
-            diff = ch['difficulty'].lower()
-            if diff == "easy":
-                st.easy_score += ch['points']
-            elif diff == "medium":
-                st.medium_score += ch['points']
-            elif diff == "hard":
-                st.hard_score += ch['points']
             feedback = f"✅ CORRECT! +{ch['points']} points"
         else:
             st.wrong_count += 1
             expected = ch['accept'][0]
             feedback = f"❌ WRONG. The answer was: {expected}"
 
+        # Track score per category
+        if ch["difficulty"] == "Easy":
+            st.easy_score += ch["points"] if correct else 0
+        elif ch["difficulty"] == "Medium":
+            st.medium_score += ch["points"] if correct else 0
+        elif ch["difficulty"] == "Hard":
+            st.hard_score += ch["points"] if correct else 0
+
         st.current_challenge_index += 1
+        
+        # Incremental reward for this step
+        current_step_reward = (ch["points"] / sum(c["points"] for c in challenges)) if correct else 0.0
+        # Clamp to strictly within (0, 1) to avoid total episode reward being exactly 1.0 or 0.0 if OpenEnv sums them
+        # However, the graders are what really matter.
         norm_reward = self._normalized_reward()
 
         # Show next challenge or finish
