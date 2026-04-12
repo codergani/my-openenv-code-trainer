@@ -9,9 +9,9 @@ class MyAssistantBotObservation(Observation):
 
 class MyAssistantBotState(State):
     current_challenge_index: int = 0
-    total_score: float = 0.0
-    easy_score: float = 0.0
-    medium_score: float = 0.0
-    hard_score: float = 0.0
+    total_score: int = 0
+    easy_score: int = 0
+    medium_score: int = 0
+    hard_score: int = 0
     correct_count: int = 0
     wrong_count: int = 0

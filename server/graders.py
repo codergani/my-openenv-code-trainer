@@ -13,16 +13,32 @@ def _clamp_score(raw_score: float, max_score: float) -> float:
     """
     if max_score <= 0:
         return 0.5
+    
+    # Normalize to [0, 1]
     normalized = raw_score / max_score
-    # Clamp to strictly within (0, 1) — the validator rejects 0.0 and 1.0
-    return round(min(max(normalized, 0.1), 0.9), 4)
+    
+    # Clamp to strictly within (0, 1). 
+    # The platform rejects 0.0 and 1.0.
+    clamped = min(max(normalized, 0.001), 0.999)
+    return float(clamped)
 
 
 def _get_val(state, key: str, default=0.0):
-    """Safe retrieval of values from state (handles dict or object)."""
+    """Safe retrieval of values from state (handles dict, object, or env instance)."""
+    if state is None:
+        return default
+        
+    # If we were accidentally passed the environment instance instead of the state
+    if hasattr(state, "state") and not isinstance(state, dict):
+        state = state.state
+        
     if isinstance(state, dict):
         return state.get(key, default)
-    return getattr(state, key, default)
+    
+    try:
+        return getattr(state, key, default)
+    except Exception:
+        return default
 
 
 def grade_easy(state) -> float:

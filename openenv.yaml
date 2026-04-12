@@ -6,18 +6,21 @@ app: server.app:app
 port: 8000
 
 tasks:
-  - id: easy_task
+  - id: 1
     name: "Easy Challenges"
+    category: "Easy"
     description: "Output prediction and basic bug fixing."
     difficulty: "Easy"
     grader: "server.graders:grade_easy"
-  - id: medium_task
+  - id: 2
     name: "Medium Challenges"
+    category: "Medium"
     description: "Data structures and algorithm logic."
     difficulty: "Medium"
     grader: "server.graders:grade_medium"
-  - id: hard_task
+  - id: 3
     name: "Hard Challenges"
+    category: "Hard"
     description: "Advanced OOP, generators, and error handling."
     difficulty: "Hard"
     grader: "server.graders:grade_hard"

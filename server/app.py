@@ -49,10 +49,10 @@ if root_path not in sys.path:
     sys.path.insert(0, root_path)
 
 try:
-    from my_assistant_bot.models import MyAssistantBotAction, MyAssistantBotObservation
+    from my_assistant_bot.models import MyAssistantBotAction, MyAssistantBotObservation, MyAssistantBotState
     from my_assistant_bot.server.my_assistant_bot_environment import MyAssistantBotEnvironment
 except (ImportError, ValueError):
-    from models import MyAssistantBotAction, MyAssistantBotObservation  # type: ignore
+    from models import MyAssistantBotAction, MyAssistantBotObservation, MyAssistantBotState  # type: ignore
     from server.my_assistant_bot_environment import MyAssistantBotEnvironment  # type: ignore
 
 
@@ -82,11 +82,26 @@ async def serve_elite_ui():
     """Serve the premium dashboard."""
     return FileResponse(static_path / "index.html")
 
+@app.get("/state")
+async def get_full_state():
+    """Manual override to ensure all custom integer fields are returned."""
+    try:
+        session_id = "default" 
+        manager = app.state.session_manager
+        env = manager.get_env(session_id)
+        st = env.state
+        if isinstance(st, dict):
+            return st
+        if hasattr(st, "model_dump"):
+            return st.model_dump()
+        return st.dict()
+    except Exception:
+        return {"error": "Could not retrieve state"}
+
 @app.get("/", include_in_schema=False)
 async def root_redirect():
     """Redirect root to the elite UI."""
     return RedirectResponse(url="/elite")
-
 
 def main():
     import uvicorn
