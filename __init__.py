@@ -8,7 +8,7 @@
 
 from .client import MyAssistantBotEnv
 from .models import MyAssistantBotAction, MyAssistantBotObservation, MyAssistantBotState
-from .my_graders import grade_easy, grade_medium, grade_hard
+from .graders import grade_easy, grade_medium, grade_hard
 
 __all__ = [
     "MyAssistantBotAction",
