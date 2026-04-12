@@ -40,13 +40,20 @@ def _get_val(state, key: str, default=0):
     return default
 
 def grade_easy(state) -> float:
-    score = _get_val(state, "easy_score", 0)
+    # Try category score first, then fallback to total_score
+    score = _get_val(state, "easy_score", None)
+    if score is None:
+        score = _get_val(state, "total_score", 0)
     return _clamp_score(score, 3)
 
 def grade_medium(state) -> float:
-    score = _get_val(state, "medium_score", 0)
+    score = _get_val(state, "medium_score", None)
+    if score is None:
+        score = _get_val(state, "total_score", 0)
     return _clamp_score(score, 8)
 
 def grade_hard(state) -> float:
-    score = _get_val(state, "hard_score", 0)
+    score = _get_val(state, "hard_score", None)
+    if score is None:
+        score = _get_val(state, "total_score", 0)
     return _clamp_score(score, 9)

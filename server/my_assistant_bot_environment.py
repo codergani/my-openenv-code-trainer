@@ -117,13 +117,27 @@ class MyAssistantBotEnvironment(Environment):
         self._env_state = MyAssistantBotState()
 
     def reset(self, seed: Optional[int] = None, episode_id: Optional[str] = None, **kwargs: Any) -> MyAssistantBotObservation:
-        self._challenges = list(self.CHALLENGE_POOL)
+        # Task awareness: filter pool if task_id provided (handles "task1", "task2", "task3")
+        task_id = str(kwargs.get("task_id", kwargs.get("task", ""))).lower()
+        
+        if "task1" in task_id or "easy" in task_id:
+            self._challenges = [c for c in self.CHALLENGE_POOL if c["difficulty"] == "Easy"]
+        elif "task2" in task_id or "medium" in task_id:
+            self._challenges = [c for c in self.CHALLENGE_POOL if c["difficulty"] == "Medium"]
+        elif "task3" in task_id or "hard" in task_id:
+            self._challenges = [c for c in self.CHALLENGE_POOL if c["difficulty"] == "Hard"]
+        else:
+            self._challenges = list(self.CHALLENGE_POOL)
+            
         self._env_state = MyAssistantBotState(episode_id=episode_id)
+        
+        if not self._challenges:
+            return MyAssistantBotObservation(echoed_message="No challenges found for this task.", reward=0.05, done=True)
 
         ch = self._challenges[0]
         total = len(self._challenges)
         msg = (
-            "CODE TRAINER - Session Started!\n"
+            f"CODE TRAINER - {task_id.upper() if task_id else 'FULL SESSION'} STARTED!\n"
             f"You will be given {total} coding challenges.\n"
             "Answer each one. You get points for correct answers.\n\n"
             "----------------------------------------\n"
