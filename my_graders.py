@@ -62,11 +62,12 @@ def _get_val(state, key: str, default=0):
 def grade_easy(state) -> float:
     """Grade easy task - evaluates easy_score from state."""
     try:
-        # Try category score first, then fallback to total_score
+        # Get easy_score, don't fallback on zero (zero is valid - earned 0 points)
         score = _get_val(state, "easy_score", None)
-        if score is None or score == 0:
+        if score is None:
+            # Only fallback to total_score if easy_score field doesn't exist
             score = _get_val(state, "total_score", 0)
-        result = _clamp_score(score, 3)
+        result = _clamp_score(float(score), 3)
         # Ensure result is valid float between 0 and 1
         if isinstance(result, float) and 0.0 < result < 1.0:
             return result
@@ -77,10 +78,12 @@ def grade_easy(state) -> float:
 def grade_medium(state) -> float:
     """Grade medium task - evaluates medium_score from state."""
     try:
+        # Get medium_score, don't fallback on zero (zero is valid - earned 0 points)
         score = _get_val(state, "medium_score", None)
-        if score is None or score == 0:
+        if score is None:
+            # Only fallback to total_score if medium_score field doesn't exist
             score = _get_val(state, "total_score", 0)
-        result = _clamp_score(score, 8)
+        result = _clamp_score(float(score), 8)
         # Ensure result is valid float between 0 and 1
         if isinstance(result, float) and 0.0 < result < 1.0:
             return result
@@ -91,10 +94,12 @@ def grade_medium(state) -> float:
 def grade_hard(state) -> float:
     """Grade hard task - evaluates hard_score from state."""
     try:
+        # Get hard_score, don't fallback on zero (zero is valid - earned 0 points)
         score = _get_val(state, "hard_score", None)
-        if score is None or score == 0:
+        if score is None:
+            # Only fallback to total_score if hard_score field doesn't exist
             score = _get_val(state, "total_score", 0)
-        result = _clamp_score(score, 9)
+        result = _clamp_score(float(score), 9)
         # Ensure result is valid float between 0 and 1
         if isinstance(result, float) and 0.0 < result < 1.0:
             return result
