@@ -1,23 +1,23 @@
 spec_version: 1
-name: my_assistant_bot
-type: space
-runtime: fastapi
-app: server.app:app
+name: "my_assistant_bot"
+type: "space"
+runtime: "fastapi"
+app: "server.app:app"
 port: 8000
 
 tasks:
-  - id: 1
-    name: "Python Basics"
-    description: "Assessment of basic Python syntax and built-in functions."
-    difficulty: "Easy"
-    grader: "server.graders:grade_easy"
-  - id: 2
-    name: "Data Structures"
-    description: "Assessment of medium difficulty data structures and algorithms."
-    difficulty: "Medium"
-    grader: "server.graders:grade_medium"
-  - id: 3
-    name: "Advanced Concepts"
-    description: "Assessment of advanced OOP and error handling concepts."
-    difficulty: "Hard"
-    grader: "server.graders:grade_hard"
+  - id: "task1"
+    name: "Easy Challenges"
+    description: "Basic syntax and logic puzzles."
+    difficulty: "easy"
+    grader: "my_graders:grade_easy"
+  - id: "task2"
+    name: "Medium Challenges"
+    description: "Data structures and algorithm logic."
+    difficulty: "medium"
+    grader: "my_graders:grade_medium"
+  - id: "task3"
+    name: "Hard Challenges"
+    description: "Advanced OOP and error handling."
+    difficulty: "hard"
+    grader: "my_graders:grade_hard"

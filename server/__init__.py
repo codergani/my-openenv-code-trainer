@@ -6,7 +6,8 @@
 
 """My Assistant Bot environment server components."""
 
+import my_graders
 from .my_assistant_bot_environment import MyAssistantBotEnvironment
-from .graders import grade_easy, grade_medium, grade_hard
+from my_graders import grade_easy, grade_medium, grade_hard
 
 __all__ = ["MyAssistantBotEnvironment", "grade_easy", "grade_medium", "grade_hard"]

@@ -82,22 +82,6 @@ async def serve_elite_ui():
     """Serve the premium dashboard."""
     return FileResponse(static_path / "index.html")
 
-@app.get("/state")
-async def get_full_state():
-    """Manual override to ensure all custom integer fields are returned."""
-    try:
-        session_id = "default" 
-        manager = app.state.session_manager
-        env = manager.get_env(session_id)
-        st = env.state
-        if isinstance(st, dict):
-            return st
-        if hasattr(st, "model_dump"):
-            return st.model_dump()
-        return st.dict()
-    except Exception:
-        return {"error": "Could not retrieve state"}
-
 @app.get("/", include_in_schema=False)
 async def root_redirect():
     """Redirect root to the elite UI."""
