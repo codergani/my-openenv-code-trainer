@@ -44,15 +44,17 @@ def grade_easy(state) -> float:
             normalized = min(float(score) / float(max_points), 1.0)
         
         # Map [0, 1] to [0.15, 0.85] to ensure strictly between 0 and 1
-        grade = 0.15 + (normalized * 0.7)
+        grade = float(0.15 + (normalized * 0.7))
         
-        # Double-check the result is valid
-        assert 0.0 < grade < 1.0, f"Invalid grade: {grade}"
+        # Ensure it's a float and in valid range
+        if not isinstance(grade, float) or not (0.0 < grade < 1.0):
+            return float(0.5)
+        
         return grade
         
     except Exception as e:
         # Fallback to middle value
-        return 0.5
+        return float(0.5)
 
 
 def grade_medium(state) -> float:
@@ -71,15 +73,17 @@ def grade_medium(state) -> float:
             normalized = min(float(score) / float(max_points), 1.0)
         
         # Map [0, 1] to [0.15, 0.85] to ensure strictly between 0 and 1
-        grade = 0.15 + (normalized * 0.7)
+        grade = float(0.15 + (normalized * 0.7))
         
-        # Double-check the result is valid
-        assert 0.0 < grade < 1.0, f"Invalid grade: {grade}"
+        # Ensure it's a float and in valid range
+        if not isinstance(grade, float) or not (0.0 < grade < 1.0):
+            return float(0.5)
+        
         return grade
         
     except Exception as e:
         # Fallback to middle value
-        return 0.5
+        return float(0.5)
 
 
 def grade_hard(state) -> float:
@@ -98,12 +102,14 @@ def grade_hard(state) -> float:
             normalized = min(float(score) / float(max_points), 1.0)
         
         # Map [0, 1] to [0.15, 0.85] to ensure strictly between 0 and 1
-        grade = 0.15 + (normalized * 0.7)
+        grade = float(0.15 + (normalized * 0.7))
         
-        # Double-check the result is valid
-        assert 0.0 < grade < 1.0, f"Invalid grade: {grade}"
+        # Ensure it's a float and in valid range
+        if not isinstance(grade, float) or not (0.0 < grade < 1.0):
+            return float(0.5)
+        
         return grade
         
     except Exception as e:
         # Fallback to middle value
-        return 0.5
+        return float(0.5)
