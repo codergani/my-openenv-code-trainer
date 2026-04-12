@@ -28,23 +28,37 @@ def _get_val(state, key: str, default=0.0):
     if state is None:
         return default
         
-    # If we were accidentally passed the environment instance instead of the state
-    if hasattr(state, "state") and not isinstance(state, dict):
-        state = state.state
+    # Standard OpenEnv pattern: if passed an environment instance, get its state
+    if hasattr(state, "state"):
+        potential_state = state.state
+        # If it's a property/attribute, it might be the state we want
+        if potential_state is not None:
+            state = potential_state
         
+    # Handle dictionary
     if isinstance(state, dict):
         return state.get(key, default)
     
+    # Handle Pydantic or other objects
     try:
+        # Try direct attribute access
         return getattr(state, key, default)
     except Exception:
+        # Fallback for complex objects: try to convert to dict if possible
+        try:
+            if hasattr(state, "model_dump"):
+                return state.model_dump().get(key, default)
+            elif hasattr(state, "dict"):
+                return state.dict().get(key, default)
+        except Exception:
+            pass
         return default
 
 
 def grade_easy(state) -> float:
     """
     Grade Easy challenges (IDs 1-3).
-    Max raw score = 3.0 (3 challenges x 1.0 points each).
+    Max raw score = 3 (3 challenges x 1 point each).
     """
     easy_score = _get_val(state, "easy_score", 0.0)
     easy_max = 3.0
@@ -54,18 +68,18 @@ def grade_easy(state) -> float:
 def grade_medium(state) -> float:
     """
     Grade Medium challenges (IDs 4-7).
-    Max raw score = 6.0 (4 challenges x 1.5 points each).
+    Max raw score = 8 (4 challenges x 2 points each).
     """
     medium_score = _get_val(state, "medium_score", 0.0)
-    medium_max = 6.0
+    medium_max = 8.0
     return _clamp_score(medium_score, medium_max)
 
 
 def grade_hard(state) -> float:
     """
     Grade Hard challenges (IDs 8-10).
-    Max raw score = 6.0 (3 challenges x 2.0 points each).
+    Max raw score = 9 (3 challenges x 3 points each).
     """
     hard_score = _get_val(state, "hard_score", 0.0)
-    hard_max = 6.0
+    hard_max = 9.0
     return _clamp_score(hard_score, hard_max)

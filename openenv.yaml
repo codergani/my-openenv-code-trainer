@@ -2,25 +2,25 @@ spec_version: 1
 name: my_assistant_bot
 type: space
 runtime: fastapi
-app: server.app:app
+app: my_assistant_bot.server.app:app
 port: 8000
 
 tasks:
-  - id: 1
+  - id: "task1"
     name: "Easy Challenges"
     category: "Easy"
     description: "Output prediction and basic bug fixing."
     difficulty: "Easy"
-    grader: "server.graders:grade_easy"
-  - id: 2
+    grader: "my_assistant_bot.server.graders:grade_easy"
+  - id: "task2"
     name: "Medium Challenges"
     category: "Medium"
     description: "Data structures and algorithm logic."
     difficulty: "Medium"
-    grader: "server.graders:grade_medium"
-  - id: 3
+    grader: "my_assistant_bot.server.graders:grade_medium"
+  - id: "task3"
     name: "Hard Challenges"
     category: "Hard"
     description: "Advanced OOP, generators, and error handling."
     difficulty: "Hard"
-    grader: "server.graders:grade_hard"
+    grader: "my_assistant_bot.server.graders:grade_hard"
