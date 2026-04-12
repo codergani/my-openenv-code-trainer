@@ -132,18 +132,17 @@ class MyAssistantBotEnvironment(Environment):
             f"{ch['question']}\n\n"
             f"Hint: {ch['hint']}"
         )
-        return MyAssistantBotObservation(echoed_message=msg, reward=0.001, done=False)
+        return MyAssistantBotObservation(echoed_message=msg, reward=0.05, done=False)
 
     def _normalized_reward(self):
-        """Return reward normalized to 0-1 range."""
+        """Return reward normalized to 0.05-0.95 range."""
         st = self._env_state
         challenges = self._challenges
         max_score = sum(c['points'] for c in challenges)
         if max_score <= 0:
             return 0.5
-        score = st.total_score / max_score
-        # Return strictly between 0 and 1
-        return round(min(max(score, 0.001), 0.999), 4)
+        normalized = min(max(st.total_score / max_score, 0), 1)
+        return float(0.05 + (normalized * 0.9))
 
     def step(self, action: MyAssistantBotAction) -> MyAssistantBotObservation:
         st = self._env_state
@@ -155,7 +154,7 @@ class MyAssistantBotEnvironment(Environment):
         if idx >= len(challenges):
             return MyAssistantBotObservation(
                 echoed_message="Session finished. Click Reset to start again.",
-                reward=0.001, done=True
+                reward=0.05, done=True
             )
 
         ch = challenges[idx]
@@ -185,12 +184,12 @@ class MyAssistantBotEnvironment(Environment):
         # Calculate incremental reward for this step
         total_max_points = sum(c['points'] for c in challenges)
         if correct:
-            raw_reward = (ch["points"] / total_max_points)
+            normalized_step = (ch["points"] / total_max_points)
         else:
-            raw_reward = 0.0
+            normalized_step = 0.0
             
-        # Ensure it is STRICTLY between 0 and 1
-        current_step_reward = round(min(max(raw_reward, 0.001), 0.999), 4)
+        # Ensure it is STRICTLY between 0.05 and 0.95
+        current_step_reward = float(0.05 + (normalized_step * 0.9))
 
         # Show next challenge or finish
         if st.current_challenge_index < len(challenges):

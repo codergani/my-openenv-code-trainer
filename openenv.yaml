@@ -2,25 +2,31 @@ spec_version: 1
 name: my_assistant_bot
 type: space
 runtime: fastapi
-app: my_assistant_bot.server.app:app
+app: server.app:app
 port: 8000
 
 tasks:
-  - id: "task1"
-    name: "Easy Challenges"
-    category: "Easy"
-    description: "Output prediction and basic bug fixing."
+  - id: "task_easy"
+    name: "Python Basics"
+    category: "Coding"
+    description: "Assessment of basic Python syntax and built-in functions."
     difficulty: "Easy"
-    grader: "my_assistant_bot.server.graders:grade_easy"
-  - id: "task2"
-    name: "Medium Challenges"
-    category: "Medium"
-    description: "Data structures and algorithm logic."
+    grader: "server.graders:grade_easy"
+  - id: "task_medium"
+    name: "Data Structures"
+    category: "Coding"
+    description: "Assessment of medium difficulty data structures and algorithms."
     difficulty: "Medium"
-    grader: "my_assistant_bot.server.graders:grade_medium"
-  - id: "task3"
-    name: "Hard Challenges"
-    category: "Hard"
-    description: "Advanced OOP, generators, and error handling."
+    grader: "server.graders:grade_medium"
+  - id: "task_hard"
+    name: "Advanced Concepts"
+    category: "Coding"
+    description: "Assessment of advanced OOP and error handling concepts."
     difficulty: "Hard"
-    grader: "my_assistant_bot.server.graders:grade_hard"
+    grader: "server.graders:grade_hard"
+  - id: "task_overall"
+    name: "Overall Proficiency"
+    category: "Coding"
+    description: "Holistic evaluation of the entire challenge set."
+    difficulty: "Hard"
+    grader: "server.graders:grade_overall"
