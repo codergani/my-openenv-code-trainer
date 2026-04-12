@@ -4,13 +4,13 @@ Scores are returned strictly between 0.05 and 0.95 to satisfy platform constrain
 """
 
 def _clamp_score(raw_score: float, max_score: float) -> float:
-    """Normalize score to [0.05, 0.95]."""
+    """Normalize score to [0.1, 0.9]."""
     if max_score <= 0:
         return 0.5
-    normalized = min(max(raw_score / max_score, 0), 1)
-    # Stretch [0, 1] to [0.05, 0.95]
+    normalized = min(max(raw_score / max_score, 0.0), 1.0)
+    # Stretch [0, 1] to [0.1, 0.9]
     # formula: lower + (normalized * (upper - lower))
-    clamped = 0.05 + (normalized * 0.9)
+    clamped = 0.1 + (normalized * 0.8)
     return float(clamped)
 
 def _get_val(state, key: str, default=0):

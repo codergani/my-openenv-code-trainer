@@ -8,19 +8,16 @@ port: 8000
 tasks:
   - id: 1
     name: "Python Basics"
-    category: "Coding"
     description: "Assessment of basic Python syntax and built-in functions."
     difficulty: "Easy"
-    grader: "my_assistant_bot.server.graders:grade_easy"
+    grader: "server.graders:grade_easy"
   - id: 2
     name: "Data Structures"
-    category: "Coding"
     description: "Assessment of medium difficulty data structures and algorithms."
     difficulty: "Medium"
-    grader: "my_assistant_bot.server.graders:grade_medium"
+    grader: "server.graders:grade_medium"
   - id: 3
     name: "Advanced Concepts"
-    category: "Coding"
     description: "Assessment of advanced OOP and error handling concepts."
     difficulty: "Hard"
-    grader: "my_assistant_bot.server.graders:grade_hard"
+    grader: "server.graders:grade_hard"
