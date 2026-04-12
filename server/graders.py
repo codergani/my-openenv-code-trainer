@@ -29,18 +29,14 @@ def _get_val(state, key: str, default=0):
         except: pass
     return default
 
-def grade_easy(state, **kwargs) -> float:
+def grade_easy(state) -> float:
     val = _get_val(state, "easy_score", 0)
     return _clamp_score(float(val), 3.0)
 
-def grade_medium(state, **kwargs) -> float:
+def grade_medium(state) -> float:
     val = _get_val(state, "medium_score", 0)
     return _clamp_score(float(val), 8.0)
 
-def grade_hard(state, **kwargs) -> float:
+def grade_hard(state) -> float:
     val = _get_val(state, "hard_score", 0)
     return _clamp_score(float(val), 9.0)
-
-def grade_overall(state, **kwargs) -> float:
-    val = _get_val(state, "total_score", 0)
-    return _clamp_score(float(val), 20.0)

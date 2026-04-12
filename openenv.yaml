@@ -6,27 +6,21 @@ app: server.app:app
 port: 8000
 
 tasks:
-  - id: "task_easy"
+  - id: 1
     name: "Python Basics"
     category: "Coding"
     description: "Assessment of basic Python syntax and built-in functions."
     difficulty: "Easy"
-    grader: "server.graders:grade_easy"
-  - id: "task_medium"
+    grader: "my_assistant_bot.server.graders:grade_easy"
+  - id: 2
     name: "Data Structures"
     category: "Coding"
     description: "Assessment of medium difficulty data structures and algorithms."
     difficulty: "Medium"
-    grader: "server.graders:grade_medium"
-  - id: "task_hard"
+    grader: "my_assistant_bot.server.graders:grade_medium"
+  - id: 3
     name: "Advanced Concepts"
     category: "Coding"
     description: "Assessment of advanced OOP and error handling concepts."
     difficulty: "Hard"
-    grader: "server.graders:grade_hard"
-  - id: "task_overall"
-    name: "Overall Proficiency"
-    category: "Coding"
-    description: "Holistic evaluation of the entire challenge set."
-    difficulty: "Hard"
-    grader: "server.graders:grade_overall"
+    grader: "my_assistant_bot.server.graders:grade_hard"
